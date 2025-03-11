@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -30,11 +31,11 @@ function TabNavigator() {
           borderTopColor: Colors.light.border,
           paddingTop: 5,
           paddingBottom: 5,
-          height: 60,
+          height: 80, // Increased height
         },
         tabBarLabelStyle: {
           fontSize: 12,
-          fontWeight: '500',
+          fontWeight: "500",
           marginBottom: 5,
         },
         headerShown: false,
@@ -44,7 +45,7 @@ function TabNavigator() {
         name="HomeTab"
         component={HomeScreen}
         options={{
-          tabBarLabel: 'Beranda',
+          tabBarLabel: "Beranda",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
           ),
@@ -54,7 +55,7 @@ function TabNavigator() {
         name="ZakatTab"
         component={ZakatScreen}
         options={{
-          tabBarLabel: 'Zakat',
+          tabBarLabel: "Zakat",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="hand-holding-heart" color={color} size={size} />
           ),
@@ -64,7 +65,7 @@ function TabNavigator() {
         name="DoaTab"
         component={DoaScreen}
         options={{
-          tabBarLabel: 'Doa',
+          tabBarLabel: "Doa",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="book" color={color} size={size} />
           ),
@@ -74,7 +75,7 @@ function TabNavigator() {
         name="AboutTab"
         component={AboutScreen}
         options={{
-          tabBarLabel: 'Tentang',
+          tabBarLabel: "Tentang",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="information-circle" color={color} size={size} />
           ),
@@ -85,20 +86,19 @@ function TabNavigator() {
 }
 
 export default function Navigation() {
-  // Check if user is authenticated
   const isAuthenticated = false; // This would normally come from your auth state
 
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={isAuthenticated ? 'Main' : 'Login'}
+        initialRouteName={isAuthenticated ? "Main" : "Login"}
         screenOptions={{
           headerStyle: {
             backgroundColor: Colors.light.primary,
           },
-          headerTintColor: '#fff',
+          headerTintColor: "#fff",
           headerTitleStyle: {
-            fontWeight: '600',
+            fontWeight: "600",
           },
           headerShadowVisible: false,
           contentStyle: {
@@ -107,51 +107,56 @@ export default function Navigation() {
         }}
       >
         {/* Auth Screens */}
-        <Stack.Screen 
-          name="Login" 
-          component={LoginScreen} 
-          options={{ headerShown: false }} 
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen 
-          name="Register" 
-          component={RegisterScreen} 
-          options={{ headerShown: false }} 
+        <Stack.Screen
+          name="Register"
+          component={RegisterScreen}
+          options={{ headerShown: false }}
         />
-        
+
         {/* Main Tab Navigator */}
         <Stack.Screen
           name="Main"
           component={TabNavigator}
           options={{ headerShown: false }}
         />
-        
+
         {/* Zakat Screens */}
-        <Stack.Screen 
-          name="ZakatCalculator" 
-          component={ZakatCalculatorScreen} 
-          options={{ title: 'Kalkulator Zakat' }} 
+        <Stack.Screen
+          name="Zakat"
+          component={ZakatScreen}
+          options={{ title: "Zakat" }}
         />
-        <Stack.Screen 
-          name="ZakatMal" 
-          component={ZakatMalScreen} 
-          options={{ title: 'Zakat Mal' }} 
+        <Stack.Screen
+          name="ZakatCalculator"
+          component={ZakatCalculatorScreen}
+          options={{ title: "Kalkulator Zakat" }}
         />
-        <Stack.Screen 
-          name="ZakatFitrah" 
-          component={ZakatFitrahScreen} 
-          options={{ title: 'Zakat Fitrah' }} 
+        <Stack.Screen
+          name="ZakatMal"
+          component={ZakatMalScreen}
+          options={{ title: "Zakat Mal" }}
         />
-        
+        <Stack.Screen
+          name="ZakatFitrah"
+          component={ZakatFitrahScreen}
+          options={{ title: "Zakat Fitrah" }}
+        />
+
         {/* Doa Screens */}
-        <Stack.Screen 
-          name="CreateDoa" 
-          component={CreateDoaScreen} 
-          options={{ headerShown: false }} 
+        <Stack.Screen
+          name="CreateDoa"
+          component={CreateDoaScreen as any}
+          options={{ headerShown: false }}
         />
-        <Stack.Screen 
-          name="MyDoas" 
-          component={MyDoasScreen} 
-          options={{ headerShown: false }} 
+        <Stack.Screen
+          name="MyDoas"
+          component={MyDoasScreen}
+          options={{ title: "Doa Saya" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

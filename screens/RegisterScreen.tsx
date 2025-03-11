@@ -17,10 +17,11 @@ import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import { NavigationProp } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
-export default function RegisterScreen({ navigation }) {
+export default function RegisterScreen({ navigation }: { navigation : NavigationProp<any>}) {
   const [currentStep, setCurrentStep] = useState(0);
   const [registerMethod, setRegisterMethod] = useState<'phone' | 'email'>('phone');
   const [name, setName] = useState('');
@@ -252,6 +253,7 @@ export default function RegisterScreen({ navigation }) {
               placeholder="Masukkan email"
               keyboardType="email-address"
               autoCapitalize="none"
+              
               leftIcon={<Ionicons name="mail-outline" size={20} color={Colors.light.primary} />}
             />
           )}

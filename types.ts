@@ -6,28 +6,13 @@ export interface Transaction {
   userId: string;
 }
 
-export interface DonorDistribution {
-  region: string;
-  count: number;
-}
-
-export interface ZakatCalculation {
-  type: 'mal' | 'fitrah';
-  amount: number;
-  nisab?: number;
-  isEligible?: boolean;
-}
-
 export interface Doa {
   id: string;
   userId: string;
   text: string;
-  createdAt: string;
   updatedAt: string;
   templateBackground?: string;
   ameenCount: number;
-  isAmeen: boolean;
-  templateId?: string;
 }
 
 export interface Article {

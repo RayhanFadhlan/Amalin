@@ -16,8 +16,9 @@ import Colors from '../constants/Colors';
 import Card from '../components/Card';
 import Button from '../components/Button';
 import Input from '../components/Input';
+import { NavigationProp } from '@react-navigation/native';
 
-export default function ZakatMalScreen({ navigation }) {
+export default function ZakatMalScreen({ navigation } : { navigation : NavigationProp<any> }) {
   const [assets, setAssets] = useState(previousZakatMal.assets.toString());
   const [debts, setDebts] = useState(previousZakatMal.debts.toString());
   const [zakatAmount, setZakatAmount] = useState<number | null>(null);

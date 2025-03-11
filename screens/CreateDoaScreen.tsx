@@ -22,7 +22,11 @@ interface Template {
   background: string;
 }
 
-export default function CreateDoaScreen({ navigation, route }) {
+import { RouteProp } from '@react-navigation/native';
+
+type CreateDoaScreenRouteProp = RouteProp<{ params: { doaId?: string; doa?: { text: string; templateBackground?: string } } }, 'params'>;
+
+export default function CreateDoaScreen({ navigation, route }: { navigation: any; route: CreateDoaScreenRouteProp }) {
   const [doaText, setDoaText] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
   const [loading, setLoading] = useState(false);

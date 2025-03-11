@@ -16,7 +16,10 @@ import Colors from '../constants/Colors';
 import Input from '../components/Input';
 import Button from '../components/Button';
 
-export default function LoginScreen({ navigation }) {
+import { NavigationProp } from '@react-navigation/native';
+
+
+export default function LoginScreen({ navigation }: { navigation : NavigationProp<any>}) {
   const [loginMethod, setLoginMethod] = useState<'phone' | 'email'>('phone');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
@@ -52,7 +55,7 @@ export default function LoginScreen({ navigation }) {
       // Navigate to main app
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Zakat' }],
+        routes: [{ name: "Main" }],
       });
     }, 1500);
   };
@@ -67,20 +70,22 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['right', 'left', 'top']}>
+    <SafeAreaView style={styles.container} edges={["right", "left", "top"]}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.keyboardAvoidingView}
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.header}>
             <Image
-              source={{ uri: 'https://cdn-icons-png.flaticon.com/512/5894/5894697.png' }}
+              source={require("../assets/images/salman-landscape.png")}
               style={styles.logo}
               resizeMode="contain"
             />
             <Text style={styles.title}>Selamat Datang</Text>
-            <Text style={styles.subtitle}>Masuk ke akun Anda untuk melanjutkan</Text>
+            <Text style={styles.subtitle}>
+              Masuk ke akun Anda untuk melanjutkan
+            </Text>
           </View>
 
           <View style={styles.formContainer}>
@@ -88,14 +93,14 @@ export default function LoginScreen({ navigation }) {
               <TouchableOpacity
                 style={[
                   styles.tabButton,
-                  loginMethod === 'phone' && styles.activeTabButton,
+                  loginMethod === "phone" && styles.activeTabButton,
                 ]}
-                onPress={() => setLoginMethod('phone')}
+                onPress={() => setLoginMethod("phone")}
               >
                 <Text
                   style={[
                     styles.tabButtonText,
-                    loginMethod === 'phone' && styles.activeTabButtonText,
+                    loginMethod === "phone" && styles.activeTabButtonText,
                   ]}
                 >
                   Nomor Telepon
@@ -104,14 +109,14 @@ export default function LoginScreen({ navigation }) {
               <TouchableOpacity
                 style={[
                   styles.tabButton,
-                  loginMethod === 'email' && styles.activeTabButton,
+                  loginMethod === "email" && styles.activeTabButton,
                 ]}
-                onPress={() => setLoginMethod('email')}
+                onPress={() => setLoginMethod("email")}
               >
                 <Text
                   style={[
                     styles.tabButtonText,
-                    loginMethod === 'email' && styles.activeTabButtonText,
+                    loginMethod === "email" && styles.activeTabButtonText,
                   ]}
                 >
                   Email
@@ -119,14 +124,20 @@ export default function LoginScreen({ navigation }) {
               </TouchableOpacity>
             </View>
 
-            {loginMethod === 'phone' ? (
+            {loginMethod === "phone" ? (
               <Input
                 label="Nomor Telepon"
                 value={phoneNumber}
                 onChangeText={setPhoneNumber}
                 placeholder="Masukkan nomor telepon"
                 keyboardType="phone-pad"
-                leftIcon={<Ionicons name="call-outline" size={20} color={Colors.light.primary} />}
+                leftIcon={
+                  <Ionicons
+                    name="call-outline"
+                    size={20}
+                    color={Colors.light.primary}
+                  />
+                }
               />
             ) : (
               <Input
@@ -136,7 +147,13 @@ export default function LoginScreen({ navigation }) {
                 placeholder="Masukkan email"
                 keyboardType="email-address"
                 autoCapitalize="none"
-                leftIcon={<Ionicons name="mail-outline" size={20} color={Colors.light.primary} />}
+                leftIcon={
+                  <Ionicons
+                    name="mail-outline"
+                    size={20}
+                    color={Colors.light.primary}
+                  />
+                }
               />
             )}
 
@@ -146,11 +163,19 @@ export default function LoginScreen({ navigation }) {
               onChangeText={setPassword}
               placeholder="Masukkan password"
               secureTextEntry={secureTextEntry}
-              leftIcon={<Ionicons name="lock-closed-outline" size={20} color={Colors.light.primary} />}
+              leftIcon={
+                <Ionicons
+                  name="lock-closed-outline"
+                  size={20}
+                  color={Colors.light.primary}
+                />
+              }
               rightIcon={
-                <TouchableOpacity onPress={() => setSecureTextEntry(!secureTextEntry)}>
+                <TouchableOpacity
+                  onPress={() => setSecureTextEntry(!secureTextEntry)}
+                >
                   <Ionicons
-                    name={secureTextEntry ? 'eye-outline' : 'eye-off-outline'}
+                    name={secureTextEntry ? "eye-outline" : "eye-off-outline"}
                     size={20}
                     color={Colors.light.subtext}
                   />
@@ -182,7 +207,9 @@ export default function LoginScreen({ navigation }) {
               activeOpacity={0.7}
             >
               <Image
-                source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg' }}
+                source={{
+                  uri: "https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg",
+                }}
                 style={styles.googleIcon}
                 resizeMode="contain"
               />
@@ -192,7 +219,7 @@ export default function LoginScreen({ navigation }) {
 
           <View style={styles.footer}>
             <Text style={styles.footerText}>Belum punya akun? </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
               <Text style={styles.registerText}>Daftar</Text>
             </TouchableOpacity>
           </View>
@@ -216,25 +243,25 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   header: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 40,
     marginBottom: 30,
   },
   logo: {
-    width: 80,
+    width: 200,
     height: 80,
-    marginBottom: 20,
+    marginBottom: 40,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.light.text,
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
     color: Colors.light.subtext,
-    textAlign: 'center',
+    textAlign: "center",
   },
   formContainer: {
     backgroundColor: Colors.light.card,
@@ -248,7 +275,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   tabContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
     backgroundColor: Colors.light.background,
     borderRadius: 8,
@@ -257,7 +284,7 @@ const styles = StyleSheet.create({
   tabButton: {
     flex: 1,
     paddingVertical: 10,
-    alignItems: 'center',
+    alignItems: "center",
     borderRadius: 6,
   },
   activeTabButton: {
@@ -270,29 +297,29 @@ const styles = StyleSheet.create({
   },
   tabButtonText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
     color: Colors.light.subtext,
   },
   activeTabButtonText: {
     color: Colors.light.primary,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   forgotPasswordButton: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     marginTop: 4,
     marginBottom: 20,
   },
   forgotPasswordText: {
     fontSize: 14,
     color: Colors.light.primary,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   loginButton: {
     marginBottom: 20,
   },
   dividerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 20,
   },
   divider: {
@@ -306,10 +333,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   googleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: Colors.light.border,
     borderRadius: 12,
@@ -323,12 +350,12 @@ const styles = StyleSheet.create({
   },
   googleButtonText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.light.text,
   },
   footer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginTop: 20,
   },
   footerText: {
@@ -337,7 +364,7 @@ const styles = StyleSheet.create({
   },
   registerText: {
     fontSize: 14,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.light.primary,
   },
 });

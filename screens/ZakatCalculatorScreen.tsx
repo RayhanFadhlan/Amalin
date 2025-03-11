@@ -12,10 +12,11 @@ import { Ionicons, MaterialCommunityIcons, FontAwesome5, Feather } from '@expo/v
 import { goldPricePerGram, nisabThreshold } from '../data/mockData';
 import Colors from '../constants/Colors';
 import Card from '../components/Card';
+import { NavigationProp } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
-export default function ZakatCalculatorScreen({ navigation }) {
+export default function ZakatCalculatorScreen({ navigation } : { navigation : NavigationProp<any>}) {
   // Format currency to Indonesian Rupiah
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {

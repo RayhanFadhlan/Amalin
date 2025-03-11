@@ -37,13 +37,13 @@ export default function AboutScreen() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Tentang Kami</Text>
       </View>
-
       <ScrollView contentContainerStyle={styles.scrollContent}>
+
         {/* Company Profile */}
         <Card style={styles.section}>
           <View style={styles.companyHeader}>
             <Image
-              source={{ uri: 'https://cdn-icons-png.flaticon.com/512/5894/5894697.png' }}
+              source={require("../assets/images/salman-landscape.png")}
               style={styles.logo}
               resizeMode="contain"
             />
@@ -202,15 +202,15 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: Colors.light.primary,
     padding: 20,
-    paddingTop: 20,
+    paddingTop: 40,
     paddingBottom: 30,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
   },
   headerTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
   },
   scrollContent: {
     paddingBottom: 30,
@@ -220,22 +220,22 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   companyHeader: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   logo: {
-    width: 80,
+    width: 200,
     height: 80,
-    marginBottom: 12,
+    marginBottom: 40,
   },
   companyName: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.light.text,
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.light.text,
     marginBottom: 16,
   },
@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   visionMissionItem: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
   },
   visionMissionIcon: {
@@ -254,8 +254,8 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     backgroundColor: Colors.light.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 16,
   },
   visionMissionContent: {
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
   },
   visionMissionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.light.text,
     marginBottom: 8,
   },
@@ -274,8 +274,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   contactItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 16,
   },
   contactIconContainer: {
@@ -283,8 +283,8 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     backgroundColor: Colors.light.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 16,
   },
   contactContent: {
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
   },
   contactTitle: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.light.text,
     marginBottom: 4,
   },
@@ -301,8 +301,8 @@ const styles = StyleSheet.create({
     color: Colors.light.subtext,
   },
   socialContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
     marginTop: 8,
   },
   socialButton: {
@@ -310,8 +310,8 @@ const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     backgroundColor: Colors.light.card,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     shadowColor: Colors.light.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   versionContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 30,
     marginBottom: 10,
   },

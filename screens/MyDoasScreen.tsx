@@ -18,7 +18,10 @@ import { mockDoas, mockUsers } from '../data/mockData';
 const currentUserId = mockUsers[0].id;
 const myDoas = mockDoas.filter(doa => doa.userId === currentUserId);
 
-export default function MyDoasScreen({ navigation }) {
+import { NavigationProp } from '@react-navigation/native';
+import { Doa } from '../types';
+
+export default function MyDoasScreen({ navigation }: { navigation: NavigationProp<any> }) {
   const [doas, setDoas] = useState(myDoas);
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab] = useState<'doas' | 'templates'>('doas');
@@ -31,11 +34,11 @@ export default function MyDoasScreen({ navigation }) {
     }, 1000);
   };
 
-  const handleEdit = (doa) => {
+  const handleEdit = (doa : Doa) => {
     navigation.navigate('CreateDoa', { doaId: doa.id, doa });
   };
 
-  const handleDelete = (doaId) => {
+  const handleDelete = (doaId : string) => {
     Alert.alert(
       'Hapus Doa',
       'Apakah Anda yakin ingin menghapus doa ini?',
@@ -56,7 +59,7 @@ export default function MyDoasScreen({ navigation }) {
     );
   };
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: string | number | Date) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('id-ID', {
       day: 'numeric',
@@ -67,7 +70,7 @@ export default function MyDoasScreen({ navigation }) {
     });
   };
 
-  const renderDoaItem = ({ item }) => {
+  const renderDoaItem = ({ item }: { item: Doa }) => {
     return (
       <Card style={styles.doaCard}>
         <View style={styles.doaHeader}>
@@ -119,8 +122,7 @@ export default function MyDoasScreen({ navigation }) {
     );
   };
 
-  const renderTemplateItem = ({ item }) => {
-    // For templates, we'll show a simplified version
+  const renderTemplateItem = ({ item }: { item: Doa }) => {
     return (
       <Card style={styles.templateCard}>
         <View 

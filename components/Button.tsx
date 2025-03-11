@@ -39,40 +39,36 @@ export default function Button({
     // Add variant style
     switch (variant) {
       case 'primary':
-        buttonStyle.push(styles.primaryButton);
+        buttonStyle.push({ ...styles.button, ...styles.primaryButton });
         break;
       case 'secondary':
-        buttonStyle.push(styles.secondaryButton);
+        buttonStyle.push({ ...styles.button, ...styles.secondaryButton });
         break;
       case 'outline':
-        buttonStyle.push(styles.outlineButton);
+        buttonStyle.push({ ...styles.button, ...styles.outlineButton });
         break;
     }
     
     // Add size style
     switch (size) {
       case 'small':
-        buttonStyle.push(styles.smallButton);
+        buttonStyle.push({ ...styles.button, ...styles.smallButton });
         break;
       case 'medium':
-        buttonStyle.push(styles.mediumButton);
+        buttonStyle.push({ ...styles.button, ...styles.mediumButton });
         break;
       case 'large':
-        buttonStyle.push(styles.largeButton);
+        buttonStyle.push({ ...styles.button, ...styles.largeButton });
         break;
     }
     
     // Add disabled style
     if (disabled || loading) {
-      buttonStyle.push(styles.disabledButton);
+      buttonStyle.push({ ...styles.button, ...styles.disabledButton });
     }
     
     // Add custom style
-    if (style) {
-      buttonStyle.push(style);
-    }
-    
-    return buttonStyle;
+    return [...buttonStyle, style || {}];
   };
   
   const getTextStyle = () => {
@@ -81,40 +77,37 @@ export default function Button({
     // Add variant text style
     switch (variant) {
       case 'primary':
-        textStyleArray.push(styles.primaryButtonText);
+        textStyleArray.push({ ...styles.buttonText, ...styles.primaryButtonText });
         break;
       case 'secondary':
-        textStyleArray.push(styles.secondaryButtonText);
+        textStyleArray.push({ ...styles.buttonText, ...styles.secondaryButtonText });
         break;
       case 'outline':
-        textStyleArray.push(styles.outlineButtonText);
+        textStyleArray.push({ ...styles.buttonText, ...styles.outlineButtonText });
         break;
     }
     
     // Add size text style
     switch (size) {
       case 'small':
-        textStyleArray.push(styles.smallButtonText);
+        textStyleArray.push({ ...styles.buttonText, ...styles.smallButtonText });
         break;
       case 'medium':
-        textStyleArray.push(styles.mediumButtonText);
+        textStyleArray.push({ ...styles.buttonText, ...styles.mediumButtonText });
         break;
       case 'large':
-        textStyleArray.push(styles.largeButtonText);
+        textStyleArray.push({ ...styles.buttonText, ...styles.largeButtonText });
         break;
     }
     
     // Add disabled text style
     if (disabled || loading) {
-      textStyleArray.push(styles.disabledButtonText);
+      textStyleArray.push({ ...styles.buttonText, ...styles.disabledButtonText });
     }
     
-    // Add custom text style
-    if (textStyle) {
-      textStyleArray.push(textStyle);
-    }
     
-    return textStyleArray;
+    
+    return [...textStyleArray, textStyle || {}]
   };
   
   return (

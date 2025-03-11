@@ -17,26 +17,14 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import { mockDoas, mockUsers } from '../data/mockData';
 
-// Define types
-interface User {
-  id: string;
-  name: string;
-  photoUrl: string;
-}
 
-interface Doa {
-  id: string;
-  text: string;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-  ameenCount: number;
-  isAmeen: boolean;
-  templateId?: string;
-  templateBackground?: string;
-}
 
-export default function DoaScreen({ navigation }) {
+import { NavigationProp } from '@react-navigation/native';
+import { Doa, User } from '../types';
+
+
+
+export default function DoaScreen({ navigation }: { navigation: NavigationProp<any> }) {
   const [doas, setDoas] = useState<Doa[]>(mockDoas);
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -343,21 +331,21 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: Colors.light.primary,
     padding: 20,
-    paddingTop: 20,
+    paddingTop: 40, // Add top padding
     paddingBottom: 30,
     borderBottomLeftRadius: 24,
     borderBottomRightRadius: 24,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   headerTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
   },
   headerButtons: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   headerButton: {
     marginLeft: 16,
@@ -368,8 +356,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   searchInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     backgroundColor: Colors.light.card,
     borderRadius: 12,
     paddingHorizontal: 12,
@@ -385,12 +373,12 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    height: '100%',
+    height: "100%",
     fontSize: 16,
     color: Colors.light.text,
   },
   tabContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingHorizontal: 16,
     marginBottom: 16,
   },
@@ -409,11 +397,11 @@ const styles = StyleSheet.create({
   },
   tabText: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: "500",
     color: Colors.light.subtext,
   },
   activeTabText: {
-    color: '#fff',
+    color: "#fff",
   },
   listContent: {
     paddingHorizontal: 16,
@@ -423,14 +411,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   doaHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 12,
   },
   userInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   userAvatar: {
     width: 40,
@@ -440,7 +428,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
     color: Colors.light.text,
     marginBottom: 2,
   },
@@ -460,21 +448,21 @@ const styles = StyleSheet.create({
     color: Colors.light.text,
   },
   doaActions: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderTopWidth: 1,
     borderTopColor: Colors.light.border,
     paddingTop: 12,
   },
   actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginRight: 20,
     paddingVertical: 6,
     paddingHorizontal: 10,
     borderRadius: 16,
   },
   activeActionButton: {
-    backgroundColor: Colors.light.primary + '20',
+    backgroundColor: Colors.light.primary + "20",
   },
   actionText: {
     fontSize: 14,
@@ -483,11 +471,11 @@ const styles = StyleSheet.create({
   },
   activeActionText: {
     color: Colors.light.primary,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   emptyContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 60,
   },
   emptyText: {
@@ -496,15 +484,15 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   floatingButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     right: 20,
     width: 56,
     height: 56,
     borderRadius: 28,
     backgroundColor: Colors.light.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     shadowColor: Colors.light.shadow,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
