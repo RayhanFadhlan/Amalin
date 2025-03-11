@@ -4,8 +4,6 @@ import {
   View, 
   Text, 
   ScrollView, 
-  TextInput,
-  TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
   Platform
@@ -13,12 +11,17 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import { previousZakatFitrah } from '../data/mockData';
+import Colors from '../constants/Colors';
+import Card from '../components/Card';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
 export default function ZakatFitrahScreen({ navigation }) {
   const [familyMembers, setFamilyMembers] = useState(previousZakatFitrah.familyMembers.toString());
   const [ricePrice, setRicePrice] = useState(previousZakatFitrah.ricePrice.toString());
   const [zakatAmount, setZakatAmount] = useState<number | null>(null);
   const [riceWeight, setRiceWeight] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // Format currency to Indonesian Rupiah
   const formatCurrency = (amount: number) => {
@@ -59,34 +62,43 @@ export default function ZakatFitrahScreen({ navigation }) {
   };
 
   const calculateZakat = () => {
-    const familyMembersValue = parseInt(familyMembers || '0');
-    const ricePriceValue = parseInt(parseFormattedNumber(ricePrice) || '0');
+    setLoading(true);
     
-    if (familyMembersValue <= 0) {
-      Alert.alert(
-        "Input Error",
-        "Jumlah anggota keluarga harus lebih dari 0",
-        [{ text: "OK" }]
-      );
-      return;
-    }
-    
-    if (ricePriceValue <= 0) {
-      Alert.alert(
-        "Input Error",
-        "Harga beras per kg harus lebih dari 0",
-        [{ text: "OK" }]
-      );
-      return;
-    }
-    
-    // Each person must pay 2.5 kg of rice or its equivalent in money
-    const riceWeightValue = familyMembersValue * 2.5;
-    setRiceWeight(riceWeightValue);
-    
-    // Calculate total zakat amount
-    const totalZakat = riceWeightValue * ricePriceValue;
-    setZakatAmount(totalZakat);
+    // Simulate calculation delay
+    setTimeout(() => {
+      const familyMembersValue = parseInt(familyMembers || '0');
+      const ricePriceValue = parseInt(parseFormattedNumber(ricePrice) || '0');
+      
+      if (familyMembersValue <= 0) {
+        Alert.alert(
+          "Input Error",
+          "Jumlah anggota keluarga harus lebih dari 0",
+          [{ text: "OK" }]
+        );
+        setLoading(false);
+        return;
+      }
+      
+      if (ricePriceValue <= 0) {
+        Alert.alert(
+          "Input Error",
+          "Harga beras per kg harus lebih dari 0",
+          [{ text: "OK" }]
+        );
+        setLoading(false);
+        return;
+      }
+      
+      // Each person must pay 2.5 kg of rice or its equivalent in money
+      const riceWeightValue = familyMembersValue * 2.5;
+      setRiceWeight(riceWeightValue);
+      
+      // Calculate total zakat amount
+      const totalZakat = riceWeightValue * ricePriceValue;
+      setZakatAmount(totalZakat);
+      
+      setLoading(false);
+    }, 800);
   };
 
   const handlePayZakat = () => {
@@ -126,7 +138,7 @@ export default function ZakatFitrahScreen({ navigation }) {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
           {/* Header Section */}
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Zakat Fitrah</Text>
@@ -136,7 +148,7 @@ export default function ZakatFitrahScreen({ navigation }) {
           </View>
 
           {/* Explanation Section */}
-          <View style={styles.section}>
+          <Card>
             <Text style={styles.sectionTitle}>Tentang Zakat Fitrah</Text>
             <Text style={styles.explanationText}>
               Zakat Fitrah adalah zakat yang wajib dikeluarkan oleh setiap muslim di bulan Ramadhan 
@@ -144,55 +156,44 @@ export default function ZakatFitrahScreen({ navigation }) {
               atau nilai uang yang setara. Zakat Fitrah bertujuan untuk membersihkan puasa kita dan 
               membantu orang yang kurang mampu agar dapat merayakan Idul Fitri.
             </Text>
-          </View>
+          </Card>
 
           {/* Calculator Form */}
-          <View style={styles.section}>
+          <Card>
             <Text style={styles.sectionTitle}>Kalkulator Zakat Fitrah</Text>
             
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Jumlah Anggota Keluarga</Text>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  style={styles.input}
-                  value={familyMembers}
-                  onChangeText={handleFamilyMembersChange}
-                  keyboardType="numeric"
-                  placeholder="Masukkan jumlah anggota keluarga"
-                />
-              </View>
-              <Text style={styles.inputHelper}>
-                Termasuk diri Anda dan semua anggota keluarga yang Anda tanggung.
-              </Text>
-            </View>
+            <Input
+              label="Jumlah Anggota Keluarga"
+              value={familyMembers}
+              onChangeText={handleFamilyMembersChange}
+              keyboardType="numeric"
+              placeholder="Masukkan jumlah anggota keluarga"
+              helper="Termasuk diri Anda dan semua anggota keluarga yang Anda tanggung."
+              leftIcon={<FontAwesome5 name="users" size={18} color={Colors.light.primary} />}
+            />
             
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Harga Beras per Kg (Rp)</Text>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  style={styles.input}
-                  value={ricePrice}
-                  onChangeText={handleRicePriceChange}
-                  keyboardType="numeric"
-                  placeholder="Masukkan harga beras per kg"
-                />
-              </View>
-              <Text style={styles.inputHelper}>
-                Harga beras berkualitas menengah di daerah Anda.
-              </Text>
-            </View>
+            <Input
+              label="Harga Beras per Kg (Rp)"
+              value={ricePrice}
+              onChangeText={handleRicePriceChange}
+              keyboardType="numeric"
+              placeholder="Masukkan harga beras per kg"
+              helper="Harga beras berkualitas menengah di daerah Anda."
+              leftIcon={<FontAwesome5 name="wheat" size={18} color={Colors.light.primary} />}
+            />
             
-            <TouchableOpacity 
-              style={styles.calculateButton}
+            <Button
+              title="Hitung Zakat"
               onPress={calculateZakat}
-            >
-              <Text style={styles.calculateButtonText}>Hitung Zakat</Text>
-            </TouchableOpacity>
-          </View>
+              loading={loading}
+              size="large"
+              style={{ marginTop: 8 }}
+            />
+          </Card>
 
           {/* Results Section */}
           {zakatAmount !== null && (
-            <View style={styles.section}>
+            <Card>
               <Text style={styles.sectionTitle}>Hasil Perhitungan</Text>
               
               <View style={styles.resultItem}>
@@ -210,27 +211,27 @@ export default function ZakatFitrahScreen({ navigation }) {
                 <Text style={styles.resultValue}>{riceWeight?.toFixed(1)} kg</Text>
               </View>
               
-              <View style={[styles.resultItem, styles.zakatResult]}>
+              <View style={styles.zakatResult}>
                 <Text style={styles.zakatResultLabel}>Total Zakat Fitrah</Text>
                 <Text style={styles.zakatResultValue}>{formatCurrency(zakatAmount || 0)}</Text>
               </View>
               
-              <TouchableOpacity 
-                style={styles.payButton}
+              <Button
+                title="Bayar Zakat Sekarang"
                 onPress={handlePayZakat}
-              >
-                <Text style={styles.payButtonText}>Bayar Zakat Sekarang</Text>
-              </TouchableOpacity>
-            </View>
+                size="large"
+                style={{ marginTop: 16 }}
+              />
+            </Card>
           )}
 
           {/* Additional Information */}
-          <View style={styles.section}>
+          <Card>
             <Text style={styles.sectionTitle}>Informasi Tambahan</Text>
             
             <View style={styles.infoItem}>
               <View style={styles.infoIconContainer}>
-                <FontAwesome5 name="calendar-alt" size={20} color="#4CAF50" />
+                <FontAwesome5 name="calendar-alt" size={18} color="#fff" />
               </View>
               <View style={styles.infoContent}>
                 <Text style={styles.infoTitle}>Waktu Pembayaran</Text>
@@ -242,8 +243,8 @@ export default function ZakatFitrahScreen({ navigation }) {
             </View>
             
             <View style={styles.infoItem}>
-              <View style={styles.infoIconContainer}>
-                <FontAwesome5 name="hands-helping" size={20} color="#4CAF50" />
+              <View style={[styles.infoIconContainer, { backgroundColor: Colors.light.secondary }]}>
+                <FontAwesome5 name="hands-helping" size={18} color="#fff" />
               </View>
               <View style={styles.infoContent}>
                 <Text style={styles.infoTitle}>Penerima Zakat</Text>
@@ -255,8 +256,8 @@ export default function ZakatFitrahScreen({ navigation }) {
             </View>
             
             <View style={styles.infoItem}>
-              <View style={styles.infoIconContainer}>
-                <FontAwesome5 name="balance-scale" size={20} color="#4CAF50" />
+              <View style={[styles.infoIconContainer, { backgroundColor: Colors.light.success }]}>
+                <FontAwesome5 name="balance-scale" size={18} color="#fff" />
               </View>
               <View style={styles.infoContent}>
                 <Text style={styles.infoTitle}>Jumlah yang Wajib</Text>
@@ -266,7 +267,7 @@ export default function ZakatFitrahScreen({ navigation }) {
                 </Text>
               </View>
             </View>
-          </View>
+          </Card>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -276,15 +277,19 @@ export default function ZakatFitrahScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
+  },
+  scrollContent: {
+    paddingBottom: 30,
   },
   header: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     padding: 20,
-    paddingTop: 40,
+    paddingTop: 20,
     paddingBottom: 30,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    marginBottom: 16,
   },
   headerTitle: {
     fontSize: 28,
@@ -296,124 +301,69 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.8)',
   },
-  section: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    margin: 15,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 15,
-    color: '#333',
+    color: Colors.light.text,
+    marginBottom: 12,
   },
   explanationText: {
     fontSize: 14,
     lineHeight: 22,
-    color: '#555',
-  },
-  inputGroup: {
-    marginBottom: 15,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 8,
-    color: '#333',
-  },
-  inputContainer: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    backgroundColor: '#f9f9f9',
-  },
-  input: {
-    padding: 12,
-    fontSize: 16,
-  },
-  inputHelper: {
-    fontSize: 12,
-    color: '#888',
-    marginTop: 4,
-  },
-  calculateButton: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 8,
-    padding: 15,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  calculateButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    color: Colors.light.subtext,
   },
   resultItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: Colors.light.border,
   },
   resultLabel: {
     fontSize: 14,
-    color: '#555',
+    color: Colors.light.subtext,
   },
   resultValue: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#333',
+    fontWeight: '600',
+    color: Colors.light.text,
   },
   zakatResult: {
-    marginTop: 10,
-    paddingVertical: 15,
-    backgroundColor: '#f0f8f0',
-    borderRadius: 8,
-    borderBottomWidth: 0,
+    marginTop: 16,
+    padding: 16,
+    backgroundColor: Colors.light.background,
+    borderRadius: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   zakatResultLabel: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
+    flex: 1,
   },
   zakatResultValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#4CAF50',
-  },
-  payButton: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 8,
-    padding: 15,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  payButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    color: Colors.light.primary,
   },
   infoItem: {
     flexDirection: 'row',
-    marginBottom: 15,
-    paddingBottom: 15,
+    marginBottom: 16,
+    paddingBottom: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: Colors.light.border,
   },
   infoIconContainer: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#f0f8f0',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.light.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 15,
+    marginRight: 12,
   },
   infoContent: {
     flex: 1,
@@ -421,12 +371,12 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: 15,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 5,
+    color: Colors.light.text,
+    marginBottom: 4,
   },
   infoText: {
     fontSize: 13,
-    color: '#666',
+    color: Colors.light.subtext,
     lineHeight: 20,
   },
 });

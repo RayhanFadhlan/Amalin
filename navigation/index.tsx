@@ -4,7 +4,7 @@ import ZakatScreen from '../screens/ZakatScreen';
 import ZakatCalculatorScreen from '../screens/ZakatCalculatorScreen';
 import ZakatMalScreen from '../screens/ZakatMalScreen';
 import ZakatFitrahScreen from '../screens/ZakatFitrahScreen';
-import { View, Text } from 'react-native';
+import Colors from '../constants/Colors';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,18 +15,25 @@ export default function Navigation() {
         initialRouteName="Zakat"
         screenOptions={{
           headerStyle: {
-            backgroundColor: '#4CAF50',
+            backgroundColor: Colors.light.primary,
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: '600',
+          },
+          headerShadowVisible: false,
+          contentStyle: {
+            backgroundColor: Colors.light.background,
           },
         }}
       >
         <Stack.Screen 
           name="Zakat" 
           component={ZakatScreen} 
-          options={{ title: 'Zakat' }} 
+          options={{ 
+            title: 'Zakat',
+            headerLargeTitle: true,
+          }} 
         />
         <Stack.Screen 
           name="ZakatCalculator" 

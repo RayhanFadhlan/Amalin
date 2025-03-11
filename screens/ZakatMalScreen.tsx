@@ -4,15 +4,18 @@ import {
   View, 
   Text, 
   ScrollView, 
-  TextInput,
   TouchableOpacity,
   Alert,
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { goldPricePerGram, nisabThreshold, previousZakatMal } from '../data/mockData';
+import Colors from '../constants/Colors';
+import Card from '../components/Card';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
 export default function ZakatMalScreen({ navigation }) {
   const [assets, setAssets] = useState(previousZakatMal.assets.toString());
@@ -20,6 +23,7 @@ export default function ZakatMalScreen({ navigation }) {
   const [zakatAmount, setZakatAmount] = useState<number | null>(null);
   const [isEligible, setIsEligible] = useState<boolean | null>(null);
   const [netAssets, setNetAssets] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // Format currency to Indonesian Rupiah
   const formatCurrency = (amount: number) => {
@@ -59,23 +63,30 @@ export default function ZakatMalScreen({ navigation }) {
   };
 
   const calculateZakat = () => {
-    const assetsValue = parseInt(parseFormattedNumber(assets) || '0');
-    const debtsValue = parseInt(parseFormattedNumber(debts) || '0');
+    setLoading(true);
     
-    const netAssetsValue = assetsValue - debtsValue;
-    setNetAssets(netAssetsValue);
-    
-    // Check if net assets reach nisab threshold
-    const eligible = netAssetsValue >= nisabThreshold;
-    setIsEligible(eligible);
-    
-    if (eligible) {
-      // Calculate zakat at 2.5% of net assets
-      const zakat = netAssetsValue * 0.025;
-      setZakatAmount(zakat);
-    } else {
-      setZakatAmount(0);
-    }
+    // Simulate calculation delay
+    setTimeout(() => {
+      const assetsValue = parseInt(parseFormattedNumber(assets) || '0');
+      const debtsValue = parseInt(parseFormattedNumber(debts) || '0');
+      
+      const netAssetsValue = assetsValue - debtsValue;
+      setNetAssets(netAssetsValue);
+      
+      // Check if net assets reach nisab threshold
+      const eligible = netAssetsValue >= nisabThreshold;
+      setIsEligible(eligible);
+      
+      if (eligible) {
+        // Calculate zakat at 2.5% of net assets
+        const zakat = netAssetsValue * 0.025;
+        setZakatAmount(zakat);
+      } else {
+        setZakatAmount(0);
+      }
+      
+      setLoading(false);
+    }, 800);
   };
 
   const handlePayZakat = () => {
@@ -124,7 +135,7 @@ export default function ZakatMalScreen({ navigation }) {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
       >
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
           {/* Header Section */}
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Zakat Mal</Text>
@@ -134,7 +145,7 @@ export default function ZakatMalScreen({ navigation }) {
           </View>
 
           {/* Explanation Section */}
-          <View style={styles.section}>
+          <Card>
             <Text style={styles.sectionTitle}>Tentang Zakat Mal</Text>
             <Text style={styles.explanationText}>
               Zakat Mal adalah zakat yang dikeluarkan atas harta yang dimiliki selama satu tahun 
@@ -142,55 +153,44 @@ export default function ZakatMalScreen({ navigation }) {
               ({formatCurrency(nisabThreshold)}). Jumlah yang wajib dikeluarkan adalah 2.5% dari 
               total harta bersih (harta dikurangi hutang).
             </Text>
-          </View>
+          </Card>
 
           {/* Calculator Form */}
-          <View style={styles.section}>
+          <Card>
             <Text style={styles.sectionTitle}>Kalkulator Zakat Mal</Text>
             
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Total Harta (Rp)</Text>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  style={styles.input}
-                  value={assets}
-                  onChangeText={handleAssetsChange}
-                  keyboardType="numeric"
-                  placeholder="Masukkan total harta"
-                />
-              </View>
-              <Text style={styles.inputHelper}>
-                Termasuk uang tunai, tabungan, investasi, emas, properti, dll.
-              </Text>
-            </View>
+            <Input
+              label="Total Harta (Rp)"
+              value={assets}
+              onChangeText={handleAssetsChange}
+              keyboardType="numeric"
+              placeholder="Masukkan total harta"
+              helper="Termasuk uang tunai, tabungan, investasi, emas, properti, dll."
+              leftIcon={<MaterialCommunityIcons name="cash-multiple" size={20} color={Colors.light.primary} />}
+            />
             
-            <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Total Hutang (Rp)</Text>
-              <View style={styles.inputContainer}>
-                <TextInput
-                  style={styles.input}
-                  value={debts}
-                  onChangeText={handleDebtsChange}
-                  keyboardType="numeric"
-                  placeholder="Masukkan total hutang"
-                />
-              </View>
-              <Text style={styles.inputHelper}>
-                Hutang yang harus dibayar dalam waktu dekat.
-              </Text>
-            </View>
+            <Input
+              label="Total Hutang (Rp)"
+              value={debts}
+              onChangeText={handleDebtsChange}
+              keyboardType="numeric"
+              placeholder="Masukkan total hutang"
+              helper="Hutang yang harus dibayar dalam waktu dekat."
+              leftIcon={<MaterialCommunityIcons name="cash-remove" size={20} color={Colors.light.primary} />}
+            />
             
-            <TouchableOpacity 
-              style={styles.calculateButton}
+            <Button
+              title="Hitung Zakat"
               onPress={calculateZakat}
-            >
-              <Text style={styles.calculateButtonText}>Hitung Zakat</Text>
-            </TouchableOpacity>
-          </View>
+              loading={loading}
+              size="large"
+              style={{ marginTop: 8 }}
+            />
+          </Card>
 
           {/* Results Section */}
           {zakatAmount !== null && (
-            <View style={styles.section}>
+            <Card>
               <Text style={styles.sectionTitle}>Hasil Perhitungan</Text>
               
               <View style={styles.resultItem}>
@@ -215,31 +215,33 @@ export default function ZakatMalScreen({ navigation }) {
               
               <View style={styles.resultItem}>
                 <Text style={styles.resultLabel}>Status Kewajiban</Text>
-                <Text style={[
-                  styles.resultValue, 
-                  { color: isEligible ? '#4CAF50' : '#F44336' }
-                ]}>
-                  {isEligible ? 'Wajib Zakat' : 'Tidak Wajib Zakat'}
-                </Text>
+                <View style={styles.statusContainer}>
+                  <View style={[
+                    styles.statusIndicator, 
+                    { backgroundColor: isEligible ? Colors.light.success : Colors.light.error }
+                  ]} />
+                  <Text style={[
+                    styles.statusText, 
+                    { color: isEligible ? Colors.light.success : Colors.light.error }
+                  ]}>
+                    {isEligible ? 'Wajib Zakat' : 'Tidak Wajib Zakat'}
+                  </Text>
+                </View>
               </View>
               
-              <View style={[styles.resultItem, styles.zakatResult]}>
+              <View style={styles.zakatResult}>
                 <Text style={styles.zakatResultLabel}>Zakat yang Harus Dibayar (2.5%)</Text>
                 <Text style={styles.zakatResultValue}>{formatCurrency(zakatAmount)}</Text>
               </View>
               
-              <TouchableOpacity 
-                style={[
-                  styles.payButton,
-                  !isEligible && { backgroundColor: '#9E9E9E' }
-                ]}
+              <Button
+                title={isEligible ? 'Bayar Zakat Sekarang' : 'Tidak Wajib Zakat'}
                 onPress={handlePayZakat}
-              >
-                <Text style={styles.payButtonText}>
-                  {isEligible ? 'Bayar Zakat Sekarang' : 'Tidak Wajib Zakat'}
-                </Text>
-              </TouchableOpacity>
-            </View>
+                disabled={!isEligible}
+                size="large"
+                style={{ marginTop: 16 }}
+              />
+            </Card>
           )}
         </ScrollView>
       </KeyboardAvoidingView>
@@ -250,15 +252,19 @@ export default function ZakatMalScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
+  },
+  scrollContent: {
+    paddingBottom: 30,
   },
   header: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     padding: 20,
-    paddingTop: 40,
+    paddingTop: 20,
     paddingBottom: 30,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    marginBottom: 16,
   },
   headerTitle: {
     fontSize: 28,
@@ -270,107 +276,66 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.8)',
   },
-  section: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    margin: 15,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 15,
-    color: '#333',
+    color: Colors.light.text,
+    marginBottom: 12,
   },
   explanationText: {
     fontSize: 14,
     lineHeight: 22,
-    color: '#555',
-  },
-  inputGroup: {
-    marginBottom: 15,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-    marginBottom: 8,
-    color: '#333',
-  },
-  inputContainer: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    backgroundColor: '#f9f9f9',
-  },
-  input: {
-    padding: 12,
-    fontSize: 16,
-  },
-  inputHelper: {
-    fontSize: 12,
-    color: '#888',
-    marginTop: 4,
-  },
-  calculateButton: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 8,
-    padding: 15,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  calculateButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    color: Colors.light.subtext,
   },
   resultItem: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: Colors.light.border,
   },
   resultLabel: {
     fontSize: 14,
-    color: '#555',
+    color: Colors.light.subtext,
   },
   resultValue: {
     fontSize: 14,
-    fontWeight: '500',
-    color: '#333',
+    fontWeight: '600',
+    color: Colors.light.text,
+  },
+  statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  statusIndicator: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 6,
+  },
+  statusText: {
+    fontSize: 14,
+    fontWeight: '600',
   },
   zakatResult: {
-    marginTop: 10,
-    paddingVertical: 15,
-    backgroundColor: '#f0f8f0',
-    borderRadius: 8,
-    borderBottomWidth: 0,
+    marginTop: 16,
+    padding: 16,
+    backgroundColor: Colors.light.background,
+    borderRadius: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   zakatResultLabel: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 'bold',
-    color: '#333',
+    color: Colors.light.text,
+    flex: 1,
   },
   zakatResultValue: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#4CAF50',
-  },
-  payButton: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 8,
-    padding: 15,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  payButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+    color: Colors.light.primary,
   },
 });

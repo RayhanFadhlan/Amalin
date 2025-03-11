@@ -8,8 +8,10 @@ import {
   Dimensions
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, FontAwesome5, Feather } from '@expo/vector-icons';
 import { goldPricePerGram, nisabThreshold } from '../data/mockData';
+import Colors from '../constants/Colors';
+import Card from '../components/Card';
 
 const { width } = Dimensions.get('window');
 
@@ -25,7 +27,7 @@ export default function ZakatCalculatorScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container} edges={['right', 'left']}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Header Section */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Kalkulator Zakat</Text>
@@ -35,17 +37,17 @@ export default function ZakatCalculatorScreen({ navigation }) {
         </View>
 
         {/* Explanation Section */}
-        <View style={styles.section}>
+        <Card>
           <Text style={styles.sectionTitle}>Tentang Kalkulator Zakat</Text>
           <Text style={styles.explanationText}>
             Kalkulator ini membantu Anda menghitung jumlah zakat yang perlu dikeluarkan 
             berdasarkan jenis zakat dan nilai harta Anda. Nisab (batas minimum) untuk Zakat Mal 
             adalah setara dengan 85 gram emas ({formatCurrency(nisabThreshold)}).
           </Text>
-        </View>
+        </Card>
 
         {/* Zakat Types Section */}
-        <View style={styles.section}>
+        <Card>
           <Text style={styles.sectionTitle}>Pilih Jenis Zakat</Text>
           
           <TouchableOpacity 
@@ -53,7 +55,7 @@ export default function ZakatCalculatorScreen({ navigation }) {
             onPress={() => navigation.navigate('ZakatMal')}
           >
             <View style={styles.zakatTypeIconContainer}>
-              <MaterialCommunityIcons name="cash-multiple" size={30} color="#fff" />
+              <MaterialCommunityIcons name="cash-multiple" size={24} color="#fff" />
             </View>
             <View style={styles.zakatTypeContent}>
               <Text style={styles.zakatTypeTitle}>Zakat Mal (Harta)</Text>
@@ -61,23 +63,25 @@ export default function ZakatCalculatorScreen({ navigation }) {
                 Zakat atas harta yang dimiliki selama satu tahun dengan nilai mencapai nisab.
               </Text>
               <View style={styles.zakatTypeDetails}>
-                <Text style={styles.zakatTypeDetailText}>
-                  <Text style={styles.boldText}>Nisab:</Text> {formatCurrency(nisabThreshold)}
-                </Text>
-                <Text style={styles.zakatTypeDetailText}>
-                  <Text style={styles.boldText}>Persentase:</Text> 2.5%
-                </Text>
+                <View style={styles.zakatTypeDetailItem}>
+                  <Text style={styles.zakatTypeDetailLabel}>Nisab:</Text>
+                  <Text style={styles.zakatTypeDetailValue}>{formatCurrency(nisabThreshold)}</Text>
+                </View>
+                <View style={styles.zakatTypeDetailItem}>
+                  <Text style={styles.zakatTypeDetailLabel}>Persentase:</Text>
+                  <Text style={styles.zakatTypeDetailValue}>2.5%</Text>
+                </View>
               </View>
             </View>
-            <Ionicons name="chevron-forward" size={24} color="#888" />
+            <Feather name="chevron-right" size={20} color={Colors.light.lightText} />
           </TouchableOpacity>
           
           <TouchableOpacity 
             style={styles.zakatTypeCard}
             onPress={() => navigation.navigate('ZakatFitrah')}
           >
-            <View style={[styles.zakatTypeIconContainer, { backgroundColor: '#FF9800' }]}>
-              <FontAwesome5 name="hand-holding-heart" size={24} color="#fff" />
+            <View style={[styles.zakatTypeIconContainer, { backgroundColor: Colors.light.secondary }]}>
+              <FontAwesome5 name="hand-holding-heart" size={20} color="#fff" />
             </View>
             <View style={styles.zakatTypeContent}>
               <Text style={styles.zakatTypeTitle}>Zakat Fitrah</Text>
@@ -85,27 +89,35 @@ export default function ZakatCalculatorScreen({ navigation }) {
                 Zakat yang wajib dikeluarkan oleh setiap muslim di bulan Ramadhan sebelum Idul Fitri.
               </Text>
               <View style={styles.zakatTypeDetails}>
-                <Text style={styles.zakatTypeDetailText}>
-                  <Text style={styles.boldText}>Jumlah:</Text> 2.5 kg beras per orang
-                </Text>
-                <Text style={styles.zakatTypeDetailText}>
-                  <Text style={styles.boldText}>Alternatif:</Text> Nilai uang setara
-                </Text>
+                <View style={styles.zakatTypeDetailItem}>
+                  <Text style={styles.zakatTypeDetailLabel}>Jumlah:</Text>
+                  <Text style={styles.zakatTypeDetailValue}>2.5 kg beras per orang</Text>
+                </View>
+                <View style={styles.zakatTypeDetailItem}>
+                  <Text style={styles.zakatTypeDetailLabel}>Alternatif:</Text>
+                  <Text style={styles.zakatTypeDetailValue}>Nilai uang setara</Text>
+                </View>
               </View>
             </View>
-            <Ionicons name="chevron-forward" size={24} color="#888" />
+            <Feather name="chevron-right" size={20} color={Colors.light.lightText} />
           </TouchableOpacity>
-        </View>
+        </Card>
 
         {/* Gold Price Information */}
-        <View style={styles.section}>
+        <Card>
           <Text style={styles.sectionTitle}>Informasi Harga Emas</Text>
           <View style={styles.goldPriceContainer}>
             <View style={styles.goldPriceItem}>
+              <View style={styles.goldPriceIconContainer}>
+                <FontAwesome5 name="coins" size={16} color="#fff" />
+              </View>
               <Text style={styles.goldPriceLabel}>Harga Emas per Gram</Text>
               <Text style={styles.goldPriceValue}>{formatCurrency(goldPricePerGram)}</Text>
             </View>
             <View style={styles.goldPriceItem}>
+              <View style={[styles.goldPriceIconContainer, { backgroundColor: Colors.light.warning }]}>
+                <MaterialCommunityIcons name="scale-balance" size={16} color="#fff" />
+              </View>
               <Text style={styles.goldPriceLabel}>Nisab (85 gram emas)</Text>
               <Text style={styles.goldPriceValue}>{formatCurrency(nisabThreshold)}</Text>
             </View>
@@ -113,7 +125,7 @@ export default function ZakatCalculatorScreen({ navigation }) {
           <Text style={styles.goldPriceNote}>
             *Harga emas dapat berubah setiap hari. Nilai di atas adalah perkiraan.
           </Text>
-        </View>
+        </Card>
       </ScrollView>
     </SafeAreaView>
   );
@@ -122,15 +134,19 @@ export default function ZakatCalculatorScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: Colors.light.background,
+  },
+  scrollContent: {
+    paddingBottom: 30,
   },
   header: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: Colors.light.primary,
     padding: 20,
-    paddingTop: 40,
+    paddingTop: 20,
     paddingBottom: 30,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    marginBottom: 16,
   },
   headerTitle: {
     fontSize: 28,
@@ -142,104 +158,111 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.8)',
   },
-  section: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    margin: 15,
-    padding: 15,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 15,
-    color: '#333',
+    color: Colors.light.text,
+    marginBottom: 12,
   },
   explanationText: {
     fontSize: 14,
     lineHeight: 22,
-    color: '#555',
+    color: Colors.light.subtext,
   },
   zakatTypeCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f9f9f9',
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 15,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#eee',
+    borderColor: Colors.light.border,
   },
   zakatTypeIconContainer: {
-    backgroundColor: '#4CAF50',
-    borderRadius: 50,
-    width: 50,
-    height: 50,
+    backgroundColor: Colors.light.primary,
+    borderRadius: 12,
+    width: 48,
+    height: 48,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 15,
+    marginRight: 16,
   },
   zakatTypeContent: {
     flex: 1,
+    marginRight: 8,
   },
   zakatTypeTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 5,
+    color: Colors.light.text,
+    marginBottom: 4,
   },
   zakatTypeDescription: {
     fontSize: 13,
-    color: '#666',
+    color: Colors.light.subtext,
     marginBottom: 8,
+    lineHeight: 18,
   },
   zakatTypeDetails: {
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
+    backgroundColor: Colors.light.background,
+    borderRadius: 8,
     padding: 8,
   },
-  zakatTypeDetailText: {
-    fontSize: 12,
-    color: '#555',
-    marginBottom: 3,
+  zakatTypeDetailItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 4,
   },
-  boldText: {
-    fontWeight: 'bold',
+  zakatTypeDetailLabel: {
+    fontSize: 12,
+    color: Colors.light.subtext,
+    fontWeight: '500',
+  },
+  zakatTypeDetailValue: {
+    fontSize: 12,
+    color: Colors.light.text,
+    fontWeight: '600',
   },
   goldPriceContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   goldPriceItem: {
-    backgroundColor: '#f9f9f9',
-    borderRadius: 8,
-    padding: 12,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 16,
     width: '48%',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#eee',
+    borderColor: Colors.light.border,
+  },
+  goldPriceIconContainer: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: Colors.light.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
   },
   goldPriceLabel: {
     fontSize: 12,
-    color: '#666',
-    marginBottom: 5,
+    color: Colors.light.subtext,
+    marginBottom: 4,
     textAlign: 'center',
   },
   goldPriceValue: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#4CAF50',
+    color: Colors.light.text,
   },
   goldPriceNote: {
     fontSize: 12,
-    color: '#888',
+    color: Colors.light.lightText,
     fontStyle: 'italic',
     textAlign: 'center',
-    marginTop: 5,
+    marginTop: 4,
   },
 });
