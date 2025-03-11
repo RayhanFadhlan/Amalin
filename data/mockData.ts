@@ -208,3 +208,96 @@ export const mockTemplates = [
     background: 'linear-gradient(45deg, #1E88E5, #43A047)', // Blue to Green gradient
   },
 ];
+
+// Mock articles
+export const mockArticles = [
+  {
+    id: 'article1',
+    title: 'Pentingnya Zakat dalam Kehidupan Muslim Modern',
+    content: 'Zakat merupakan salah satu rukun Islam yang wajib dilaksanakan oleh setiap Muslim yang mampu. Di era modern ini, menunaikan zakat menjadi lebih mudah dengan adanya platform digital...',
+    category: 'Zakat',
+    author: 'Dr. Ahmad Syafii',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(), // 2 days ago
+    imageUrl: 'https://images.unsplash.com/photo-1564121211835-e88c852648ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+    tags: ['zakat', 'islam', 'rukun islam'],
+  },
+  {
+    id: 'article2',
+    title: 'Cara Menghitung Zakat Mal dengan Benar',
+    content: 'Zakat mal atau zakat harta adalah zakat yang dikeluarkan atas harta yang dimiliki oleh seorang Muslim ketika telah mencapai nisab dan haul. Berikut adalah panduan lengkap cara menghitung zakat mal...',
+    category: 'Tutorial',
+    author: 'Ustadz Yusuf Mansur',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 4).toISOString(), // 4 days ago
+    imageUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+    tags: ['zakat mal', 'tutorial', 'hitung zakat'],
+  },
+  {
+    id: 'article3',
+    title: 'Perbedaan Zakat, Infaq, dan Sedekah',
+    content: 'Meskipun sama-sama merupakan bentuk ibadah dalam memberikan harta, zakat, infaq, dan sedekah memiliki perbedaan mendasar. Artikel ini akan menjelaskan perbedaan ketiganya secara detail...',
+    category: 'Edukasi',
+    author: 'Ustadzah Oki Setiana Dewi',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(), // 7 days ago
+    imageUrl: 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+    tags: ['zakat', 'infaq', 'sedekah', 'perbedaan'],
+  },
+  {
+    id: 'article4',
+    title: 'Dampak Zakat terhadap Pengentasan Kemiskinan',
+    content: 'Penelitian terbaru menunjukkan bahwa zakat memiliki dampak signifikan dalam upaya pengentasan kemiskinan. Dengan pengelolaan yang baik, zakat dapat menjadi instrumen ekonomi yang efektif...',
+    category: 'Ekonomi',
+    author: 'Prof. Dr. Didin Hafidhuddin',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 10).toISOString(), // 10 days ago
+    imageUrl: 'https://images.unsplash.com/photo-1518398046578-8cca57782e17?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+    tags: ['zakat', 'kemiskinan', 'ekonomi islam'],
+  },
+  {
+    id: 'article5',
+    title: 'Zakat di Era Digital: Peluang dan Tantangan',
+    content: 'Perkembangan teknologi membawa perubahan dalam berbagai aspek kehidupan, termasuk dalam pengelolaan zakat. Era digital membuka peluang sekaligus tantangan baru dalam optimalisasi zakat...',
+    category: 'Teknologi',
+    author: 'Dr. Irfan Syauqi Beik',
+    publishedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 14).toISOString(), // 14 days ago
+    imageUrl: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+    tags: ['zakat digital', 'teknologi', 'fintech'],
+  },
+];
+
+// Mock quotes
+export const mockQuotes = [
+  {
+    id: 'quote1',
+    text: 'Ambillah zakat dari sebagian harta mereka, dengan zakat itu kamu membersihkan dan mensucikan mereka.',
+    author: 'QS. At-Taubah: 103',
+  },
+  {
+    id: 'quote2',
+    text: 'Tangan di atas lebih baik daripada tangan di bawah.',
+    author: 'HR. Bukhari dan Muslim',
+  },
+  {
+    id: 'quote3',
+    text: 'Sedekah tidak akan mengurangi harta. Dan tidaklah seorang hamba memaafkan, melainkan Allah akan menambahkan kemuliaan baginya.',
+    author: 'HR. Muslim',
+  },
+  {
+    id: 'quote4',
+    text: 'Kekayaan yang sebenarnya bukanlah dengan banyaknya harta dunia, tetapi kekayaan yang hakiki adalah kaya hati.',
+    author: 'HR. Bukhari dan Muslim',
+  },
+  {
+    id: 'quote5',
+    text: 'Barangsiapa yang beriman kepada Allah dan hari akhir, hendaklah ia berkata baik atau diam.',
+    author: 'HR. Bukhari dan Muslim',
+  },
+  {
+    id: 'quote6',
+    text: 'Sesungguhnya Allah tidak melihat kepada rupa dan harta kalian, tetapi Dia melihat kepada hati dan amal kalian.',
+    author: 'HR. Muslim',
+  },
+  {
+    id: 'quote7',
+    text: 'Orang yang bersedekah dengan tangan kanannya hingga tangan kirinya tidak mengetahui apa yang disedekahkan tangan kanannya.',
+    author: 'HR. Bukhari dan Muslim',
+  },
+];
