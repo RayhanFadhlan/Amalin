@@ -31,7 +31,7 @@
       [
         "expo-router",
         {
-          "origin": "https://pool-ecs-fargate-mvp-ssh-task-bd657ea2.dev.appacella.com"
+          "origin": "https://project-9848c454.dev.appacella.com"
         }
       ],
       [
